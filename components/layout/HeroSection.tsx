@@ -39,8 +39,8 @@ export default function HeroSection() {
         <div className="border border-foreground/10 bg-white/5 rounded-full px-4 py-2 text-primary text-sm">
         Ingénieur IA & développeur full-stack  
         </div>
-        <h1 className="drop-shadow-lg text-white text-center text-6xl max-w-[90%]  font-semibold tracking-tighter md:text-[clamp(2rem,8vw,7rem)]"> Vous avez une idée ? <br /> Je la code pour vous </h1>
-        <p className="text-2xl text-white/90 drop-shadow-md max-w-[90%] lg:max-w-[800px] text-center px-4">
+        <h1 className="drop-shadow-lg text-white text-center text-4xl sm:text-6xl max-w-[90%]  font-semibold tracking-tighter md:text-[clamp(2rem,8vw,7rem)]"> Vous avez une idée ? <br /> Je la code pour vous </h1>
+        <p className="text-xl md:text-2xl text-white/90 drop-shadow-md max-w-[90%] sm:max-w-[70%] lg:max-w-[800px] text-center px-4">
         Passionné par les nouvelles technologies, je développe des intelligence artificielles et des applications web modernes.  
         </p>
         <div className="flex flex-col md:flex-row gap-4">
