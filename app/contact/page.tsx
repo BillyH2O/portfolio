@@ -13,7 +13,7 @@ const ContactPage = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 transition-colors duration-300">
             Contactez-nous
           </h1>
-          <p className="text-xl text-foreground w-[500px] mx-auto transition-colors duration-300">
+          <p className="text-xl text-foreground md:w-[500px] w-[90%] text-center mx-auto transition-colors duration-300">
             Vous avez un projet en tête ? Parlons-en ensemble et donnons vie à vos idées.
           </p>
         </div>

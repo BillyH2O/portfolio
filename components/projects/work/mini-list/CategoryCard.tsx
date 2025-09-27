@@ -16,12 +16,8 @@ export const CategoryCard = ({ label, image, image_shine, description, color, on
     <div className='flex flex-col items-center gap-10'>
       {/* Image Container */}
       <div className='relative w-[300px] md:w-[360px] xl:w-[400px] h-[300px] md:h-[360px] xl:h-[400px] overflow-visible'>
-        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full saturate-200' style={{
-          animation: 'spin 8s linear infinite'
-        }}>
-          <div className='w-full h-full' style={{
-            animation: '3s ease-in infinite'
-          }}>
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full saturate-200'>
+          <div className='w-full h-full'>
             <Image src={image_shine} alt="Category 1" width={1000} height={1000} className='w-full h-full scale-200 saturate-200 overflow-visible object-contain
                 pointer-events-none mix-blend-screen opacity-60 blur-3xl' />
           </div>

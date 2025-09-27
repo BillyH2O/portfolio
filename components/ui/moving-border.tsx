@@ -34,7 +34,7 @@ export function Button({
   return (
     <Component
       className={cn(
-        "relative h-16 w-40 overflow-hidden bg-transparent p-[1px] text-xl cursor-pointer",
+        "relative h-16 w-40 overflow-hidden bg-transparent p-[1px] text-xl cursor-pointer moving-border-container",
         containerClassName,
       )}
       style={{
@@ -73,7 +73,7 @@ export function Button({
 
 export const MovingBorder = ({
   children,
-  duration = 3000,
+  duration = 5000, // Augmenté pour Safari
   rx,
   ry,
   ...otherProps
@@ -104,7 +104,7 @@ export const MovingBorder = ({
     (val) => pathRef.current?.getPointAtLength(val).y,
   );
 
-  const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
+  const transform = useMotionTemplate`translate3d(${x}px, ${y}px, 0) translateX(-50%) translateY(-50%)`;
 
   return (
     <>
@@ -132,6 +132,9 @@ export const MovingBorder = ({
           left: 0,
           display: "inline-block",
           transform,
+          willChange: "transform",
+          WebkitTransform: transform,
+          transformStyle: "preserve-3d",
         }}
       >
         {children}

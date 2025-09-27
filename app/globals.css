@@ -122,3 +122,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Optimisations pour Safari et performance */
+@media (prefers-reduced-motion: reduce) {
+  .moving-border-container * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optimisations spécifiques pour Safari */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .moving-border-container {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
