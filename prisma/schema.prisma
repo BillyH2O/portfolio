@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String        @db.Text
+  slug        String        @unique // For URLs
+  status      ProjectStatus @default(ACTIVE)
+  sortOrder   Int           @default(0) // For custom ordering
+  
+  // Article content (JSON format for rich text)
+  articleContent Json?       // Stocke le contenu de l'article au format JSON
+  articleHtml    String?     @db.Text // Version HTML générée pour l'affichage
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  images          ProjectImage[]
+  stackTechniques ProjectStackTechnique[]
+  categories      ProjectCategory[]
+
+  @@map("projects")
+}
+
+model ProjectImage {
+  id        String    @id @default(cuid())
+  url       String
+  alt       String
+  type      ImageType @default(GALLERY)
+  sortOrder Int       @default(0)
+  width     Int?
+  height    Int?
+  createdAt DateTime  @default(now())
+
+  // Relations
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_images")
+}
+
+model StackTechnique {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  slug        String       @unique
+  icon        String?      // Icon URL or path
+  color       String?      // Hex color for UI
+  category    TechCategory @default(OTHER)
+  description String?
+  website     String?      // Official website
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  projects ProjectStackTechnique[]
+
+  @@map("stack_techniques")
+}
+
+model ProjectStackTechnique {
+  id               String   @id @default(cuid())
+  projectId        String
+  stackTechniqueId String
+  createdAt        DateTime @default(now())
+
+  project        Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  stackTechnique StackTechnique @relation(fields: [stackTechniqueId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, stackTechniqueId])
+  @@map("project_stack_techniques")
+}
+
+// Enums
+enum ProjectStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum ImageType {
+  THUMBNAIL  // Main project thumbnail
+  HERO       // Large hero image
+  GALLERY    // Gallery images
+  SCREENSHOT // App screenshots
+  MOCKUP     // Design mockups
+}
+
+enum TechCategory {
+  FRONTEND
+  BACKEND
+  DATABASE
+  DEVOPS
+  DESIGN
+  MOBILE
+  OTHER
+}
+
+model Category {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String?
+  sortOrder     Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  subCategories SubCategory[]
+  projects      ProjectCategory[]
+
+  @@map("categories")
+}
+
+model SubCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  category Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  projects ProjectCategory[]
+
+  @@unique([categoryId, slug])
+  @@map("sub_categories")
+}
+
+model ProjectCategory {
+  id            String   @id @default(cuid())
+  projectId     String
+  categoryId    String
+  subCategoryId String?
+  createdAt     DateTime @default(now())
+
+  // Relations
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category    Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategory SubCategory? @relation(fields: [subCategoryId], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, categoryId])
+  @@map("project_categories")
+}
