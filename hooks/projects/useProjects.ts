@@ -10,7 +10,7 @@ export const useProjects = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/projects`, {
+      const res = await fetch(`/api/projects`, {
         cache: 'no-store'
       })
       
