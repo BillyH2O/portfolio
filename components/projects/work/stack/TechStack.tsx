@@ -21,7 +21,6 @@ const TechStack = ({ stackTechniques }: { stackTechniques: ProjectStackTechnique
         {Object.entries(techsByCategory).map(([category, techs]) => (
           <TechCategory
             key={category}
-            category={category}
             techs={techs}
             label={categoryLabels[category] || category}
           />
